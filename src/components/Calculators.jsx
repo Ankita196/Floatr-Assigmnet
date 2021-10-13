@@ -5,10 +5,11 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
+
 const useStyles = makeStyles((theme) => ({
   root1: {
-    marginLeft:600,
-    marginTop:100
+    marginLeft: 550,
+    marginTop: 50,
   },
 
   field: {
@@ -20,7 +21,46 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2),
     textAlign: 'center',
     color: theme.palette.text.secondary,
+    height: 60,
+    width: 200,
+    backgroundColor:"#ffe0b2"
   },
+  paper2: {
+    padding: theme.spacing(2),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+    height: 60,
+    width: 200,
+    backgroundColor:"#e0f2f1"
+  },
+  paper1: {
+    padding: theme.spacing(2),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+    height: 60,
+    width: 460,
+    backgroundColor:"#b2ebf2"
+  },
+  heading: {
+    fontSize: 30,
+    fontWeight: 'bold',
+    color: '#1a237e',
+    padding: 10,
+    marginLeft: 50,
+  },
+  subheading: {
+    fontSize: 20,
+    padding: 20,
+    width: 150,
+  },
+  button:{
+    marginLeft:140,
+    width:250
+  },
+  subheading1:{
+    color:"black",
+    padding:10
+  }
 }));
 
 export default function Calculators() {
@@ -34,7 +74,7 @@ export default function Calculators() {
 
   // state to storage the results of the calculation
   const [results, setResults] = useState({
-    monthlyPayment: '',
+    EmiPayment: '',
     totalPayment: '',
     totalInterest: '',
     isResult: false,
@@ -88,7 +128,7 @@ export default function Calculators() {
     const monthly = (userAmount * x * calculatedInterest) / (x - 1);
 
     if (isFinite(monthly)) {
-      const monthlyPaymentCalculated = monthly.toFixed(2);
+      const EmiPaymentCalculated = monthly.toFixed(2);
       const totalPaymentCalculated = (monthly * calculatedPayments).toFixed(2);
       const totalInterestCalculated = (
         monthly * calculatedPayments -
@@ -97,7 +137,7 @@ export default function Calculators() {
 
       // Set up results to the state to be displayed to the user
       setResults({
-        monthlyPayment: monthlyPaymentCalculated,
+        EmiPayment: EmiPaymentCalculated,
         totalPayment: totalPaymentCalculated,
         totalInterest: totalInterestCalculated,
         isResult: true,
@@ -115,7 +155,7 @@ export default function Calculators() {
     });
 
     setResults({
-      monthlyPayment: '',
+      EmiPayment: '',
       totalPayment: '',
       totalInterest: '',
       isResult: false,
@@ -124,116 +164,95 @@ export default function Calculators() {
   return (
     <>
       <div className={classes.root1}>
-        <Typography>Loan EMI Calculator</Typography>
+        <Typography className={classes.heading}>
+          {' '}
+          Loan EMI Calculator
+        </Typography>
 
         <form onSubmit={handleSubmitValues}>
+          <div>
+            <div className={classes.field}>
+              <Typography className={classes.subheading}>
+                Loan Amount
+              </Typography>{' '}
+              <TextField
+                label="Enter amount"
+                variant="outlined"
+                type="text"
+                name="amount"
+                value={userValues.amount}
+                // onChange method sets the values given by the user as input to the userValues state
+                onChange={handleInputChange}
+              />
+              <Typography className={classes.subheading}>INR</Typography>{' '}
+            </div>
+            <div className={classes.field}>
+              <Typography className={classes.subheading}>
+                Loan Tenure
+              </Typography>
+              <TextField
+                label="Enter months"
+                variant="outlined"
+                value={userValues.years}
+                type="text"
+                name="years"
+                onChange={handleInputChange}
+              />
+              <Typography className={classes.subheading}>months</Typography>{' '}
+            </div>
+            <div className={classes.field}>
+              <Typography className={classes.subheading}>
+                Intrest Rate
+              </Typography>{' '}
+              <TextField
+                label="NN.NN"
+                variant="outlined"
+                type="text"
+                name="interest"
+                value={userValues.interest}
+                onChange={handleInputChange}
+              />{' '}
+              <Typography className={classes.subheading}>%</Typography>
+            </div>{' '}
+          </div>
+          <Typography className={classes.subheading}>{error}</Typography>
           {!results.isResult ? (
             <div>
-              <div className={classes.field}>
-                <Typography>Loan Amount</Typography>{' '}
-                <TextField
-                  label="Enter amount"
-                  variant="outlined"
-                  type="text"
-                  name="amount"
-                  value={userValues.amount}
-                  // onChange method sets the values given by the user as input to the userValues state
-                  onChange={handleInputChange}
-                />
-                <Typography>INR</Typography>{' '}
-              </div>
-              <div className={classes.field}>
-                <Typography>Loan Tenure</Typography>
-                <TextField
-                  label="Enter months"
-                  variant="outlined"
-                  value={userValues.years}
-                  type="text"
-                  name="years"
-                  onChange={handleInputChange}
-                />
-                <Typography>months</Typography>{' '}
-              </div>
-              <div className={classes.field}>
-                <Typography>Intrest Rate</Typography>{' '}
-                <TextField
-                  label="NN.NN"
-                  variant="outlined"
-                  type="text"
-                  name="interest"
-                  value={userValues.interest}
-                  onChange={handleInputChange}
-                />{' '}
-                <Typography>%</Typography>
-              </div>
-              <Typography>{error}</Typography>
-              <Button variant="contained" color="primary" type="submit">
+              <Button variant="contained" color="primary" type="submit" className={classes.button}>
                 Calculate
               </Button>{' '}
             </div>
           ) : (
             <div>
-               <div>
-              <div className={classes.field}>
-                <Typography>Loan Amount</Typography>{' '}
-                <TextField
-                  label="Enter amount"
-                  variant="outlined"
-                  type="text"
-                  name="amount"
-                  value={userValues.amount}
-                  // onChange method sets the values given by the user as input to the userValues state
-                  onChange={handleInputChange}
-                />
-                <Typography>INR</Typography>{' '}
+              <div>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={clearFields}
+                  className={classes.button}
+                >
+                  Reset
+                </Button>
               </div>
-              <div className={classes.field}>
-                <Typography>Loan Tenure</Typography>
-                <TextField
-                  label="Enter months"
-                  variant="outlined"
-                  value={userValues.years}
-                  type="text"
-                  name="years"
-                  onChange={handleInputChange}
-                />
-                <Typography>months</Typography>{' '}
-              </div>
-              <div className={classes.field}>
-                <Typography>Intrest Rate</Typography>{' '}
-                <TextField
-                  label="NN.NN"
-                  variant="outlined"
-                  type="text"
-                  name="interest"
-                  value={userValues.interest}
-                  onChange={handleInputChange}
-                />{' '}
-                <Typography>%</Typography>
-              </div>
-              <Typography>{error}</Typography>
-              <Button variant="contained" color="primary" onClick={clearFields}>
-                Reset
-              </Button>
 
-            </div>
-             
-              <Typography>Loan EMI Calculator</Typography>
+              <Typography className={classes.heading}>
+                Loan EMI Calculator
+              </Typography>
               <Grid container spacing={3}>
                 <Grid item xs={3}>
-                  <Paper className={classes.paper}>
-                    Loan EMI <br /> Rs.{results.monthlyPayment}
+                  <Paper className={[classes.paper,classes.subheading1]}>
+                    Loan EMI <br /> <br /> Rs.{results.EmiPayment}
                   </Paper>
                 </Grid>
                 <Grid item xs={3}>
-                  <Paper className={classes.paper}>
-                    Total Interest Payable <br /> Rs. {results.totalInterest}
+                  <Paper className={[classes.paper2,classes.subheading1]}>
+                    Total Interest Payable <br /> <br /> Rs. {results.totalInterest}
                   </Paper>
                 </Grid>
                 <Grid item xs={12}>
-                  <Paper className={classes.paper}>
+                  <Paper className={[classes.paper1,classes.subheading1]}>
                     Total Payment:
-                    <br />
+                    <br /> <br />
                     {results.totalPayment}
                   </Paper>
                 </Grid>
