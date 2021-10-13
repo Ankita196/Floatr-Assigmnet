@@ -1,3 +1,2 @@
-# react-ej6ftb
+# EMI CALCULATOR APP
 
-[Edit on StackBlitz ⚡️](https://stackblitz.com/edit/react-ej6ftb)
