@@ -97,12 +97,7 @@ export default function Calculators() {
     if (!amount || !interest || !months) {
       actualError = 'All the values are required';
     }
- 
-    // Validade if the values are numbers
-   
-   
-   
-    if (actualError) {
+ if (actualError) {
       setError(actualError);
       return false;
     }
