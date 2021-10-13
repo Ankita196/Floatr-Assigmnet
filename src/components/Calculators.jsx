@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.text.secondary,
     height: 60,
     width: 200,
-    backgroundColor:"#ffe0b2"
+    backgroundColor: '#ffe0b2',
   },
   paper2: {
     padding: theme.spacing(2),
@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.text.secondary,
     height: 60,
     width: 200,
-    backgroundColor:"#e0f2f1"
+    backgroundColor: '#e0f2f1',
   },
   paper1: {
     padding: theme.spacing(2),
@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.text.secondary,
     height: 60,
     width: 460,
-    backgroundColor:"#b2ebf2"
+    backgroundColor: '#b2ebf2',
   },
   heading: {
     fontSize: 30,
@@ -53,14 +53,15 @@ const useStyles = makeStyles((theme) => ({
     padding: 20,
     width: 150,
   },
-  button:{
-    marginLeft:140,
-    width:250
+  button: {
+    marginLeft: 140,
+    width: 250,
   },
-  subheading1:{
-    color:"black",
-    padding:10
-  }
+  subheading1: {
+    color: 'black',
+    fontWeight: 'bold',
+    padding: 10,
+  },
 }));
 
 export default function Calculators() {
@@ -69,7 +70,7 @@ export default function Calculators() {
   const [userValues, setUserValues] = useState({
     amount: '',
     interest: '',
-    years: '',
+    months: '',
   });
 
   // state to storage the results of the calculation
@@ -89,20 +90,18 @@ export default function Calculators() {
     setUserValues({ ...userValues, [event.target.name]: event.target.value });
 
   const isValid = () => {
-    const { amount, interest, years } = userValues;
+    const { amount, interest, months } = userValues;
     let actualError = '';
+   
     // Validate if there are values
-    if (!amount || !interest || !years) {
+    if (!amount || !interest || !months) {
       actualError = 'All the values are required';
     }
+ 
     // Validade if the values are numbers
-    if (isNaN(amount) || isNaN(interest) || isNaN(years)) {
-      actualError = 'All the values must be a valid number';
-    }
-    // Validade if the values are positive numbers
-    if (Number(amount) <= 0 || Number(interest) <= 0 || Number(years) <= 0) {
-      actualError = 'All the values must be a positive number';
-    }
+   
+   
+   
     if (actualError) {
       setError(actualError);
       return false;
@@ -120,10 +119,10 @@ export default function Calculators() {
   };
 
   // Calculation
-  const calculateResults = ({ amount, interest, years }) => {
+  const calculateResults = ({ amount, interest, months }) => {
     const userAmount = Number(amount);
     const calculatedInterest = Number(interest) / 100 / 12;
-    const calculatedPayments = Number(years) * 12;
+    const calculatedPayments = Number(months) ;
     const x = Math.pow(1 + calculatedInterest, calculatedPayments);
     const monthly = (userAmount * x * calculatedInterest) / (x - 1);
 
@@ -151,7 +150,7 @@ export default function Calculators() {
     setUserValues({
       amount: '',
       interest: '',
-      years: '',
+      months: '',
     });
 
     setResults({
@@ -178,7 +177,7 @@ export default function Calculators() {
               <TextField
                 label="Enter amount"
                 variant="outlined"
-                type="text"
+                type="number"
                 name="amount"
                 value={userValues.amount}
                 // onChange method sets the values given by the user as input to the userValues state
@@ -193,9 +192,9 @@ export default function Calculators() {
               <TextField
                 label="Enter months"
                 variant="outlined"
-                value={userValues.years}
-                type="text"
-                name="years"
+                value={userValues.months}
+                type="number"
+                name="months"
                 onChange={handleInputChange}
               />
               <Typography className={classes.subheading}>months</Typography>{' '}
@@ -207,7 +206,7 @@ export default function Calculators() {
               <TextField
                 label="NN.NN"
                 variant="outlined"
-                type="text"
+                type="number"
                 name="interest"
                 value={userValues.interest}
                 onChange={handleInputChange}
@@ -215,10 +214,15 @@ export default function Calculators() {
               <Typography className={classes.subheading}>%</Typography>
             </div>{' '}
           </div>
-          <Typography className={classes.subheading}>{error}</Typography>
+          <Typography className={classes.error}>{error}</Typography>
           {!results.isResult ? (
             <div>
-              <Button variant="contained" color="primary" type="submit" className={classes.button}>
+              <Button
+                variant="contained"
+                color="primary"
+                type="submit"
+                className={classes.button}
+              >
                 Calculate
               </Button>{' '}
             </div>
@@ -240,17 +244,18 @@ export default function Calculators() {
               </Typography>
               <Grid container spacing={3}>
                 <Grid item xs={3}>
-                  <Paper className={[classes.paper,classes.subheading1]}>
+                  <Paper className={[classes.paper, classes.subheading1]}>
                     Loan EMI <br /> <br /> Rs.{results.EmiPayment}
                   </Paper>
                 </Grid>
                 <Grid item xs={3}>
-                  <Paper className={[classes.paper2,classes.subheading1]}>
-                    Total Interest Payable <br /> <br /> Rs. {results.totalInterest}
+                  <Paper className={[classes.paper2, classes.subheading1]}>
+                    Total Interest Payable <br /> <br /> Rs.{' '}
+                    {results.totalInterest}
                   </Paper>
                 </Grid>
                 <Grid item xs={12}>
-                  <Paper className={[classes.paper1,classes.subheading1]}>
+                  <Paper className={[classes.paper1, classes.subheading1]}>
                     Total Payment:
                     <br /> <br />
                     {results.totalPayment}
