@@ -122,12 +122,12 @@ export default function Calculators() {
     const monthly = (userAmount * x * calculatedInterest) / (x - 1);
 
     if (isFinite(monthly)) {
-      const EmiPaymentCalculated = monthly.toFixed(2);
-      const totalPaymentCalculated = (monthly * calculatedPayments).toFixed(2);
+      const EmiPaymentCalculated = monthly.toFixed(0);
+      const totalPaymentCalculated = (monthly * calculatedPayments).toFixed(0);
       const totalInterestCalculated = (
         monthly * calculatedPayments -
         userAmount
-      ).toFixed(2);
+      ).toFixed(0);
 
       // Set up results to the state to be displayed to the user
       setResults({
